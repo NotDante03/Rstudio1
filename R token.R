@@ -1,6 +1,6 @@
 system("git --version")
 system('git config --global user.email "dante.notari@student.univaq.it"')
-system('git config --global user.name "Dante Notari"')
+system('git config --global user.name "NotDante03"')
 system("git config --global --list")
 gitcreds::gitcreds_set()
 usethis::use_git_remote(name = "origin", url = "https://github.com/NotDante03/Rstudio1.git", )
