@@ -4,7 +4,7 @@ system('git config --global user.name "Dante Notari"')
 system("git config --global --list")
 usethis::create_github_token()
 gitcreds::gitcreds_set()
-usethis::use_git_remote(name = "origin" "https://github.com/NotDante03/Rstudio2.git")
+usethis::use_git_remote(name = "origin", url = "https://github.com/NotDante03/Rstudio1.git", )
 
 
 
