@@ -9,4 +9,4 @@ system("git remote -v") #per vedere se il repository remoto è stato aggiunto co
 system("git remote remove Rstudio1") #per rimuovere un repository remoto sbagliato o ripetuto
 system("git remote remove Rsudio1")
 system("git remote -v")
-system("git push -u origin main") #per pushare i commit su github
+system("git push -u origin main") #per attivare push e pull (che prima erano grigi)
