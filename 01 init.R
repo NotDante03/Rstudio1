@@ -1,1 +1,4 @@
 print ("hello R")
+system('git config --global user.email "dante.notari@student.univaq.it"')
+system('git config --global user.name "Dante Notari"')
+system("git config --global --list")
