@@ -8,6 +8,7 @@
 # dplyr contiene molte funzioni base del tidyverse per manipolare dati
 #install.packages("tidyverse")
 library(tidyverse)
+library(palmerpenguins)
 
 
 #"%>%" è la pipe del tidyverse, che ci permette di scrivere codice più leggibile
@@ -214,7 +215,7 @@ penguins |>
 
 penguins |> 
  filter(island == "Dream") |> 
-  select(species, island, sex) |>
+  select(species, island, sex)
   
 ### ESERCIZIO 3
 # Mostra solo i pinguini con body_mass_g maggiore di 5000
@@ -248,35 +249,52 @@ filter(penguins, flipper_length_mm > 200, body_mass_g < 5000) |>
 # alle specie Adelie oppure Gentoo
 # e tieni solo species, island, body_mass_g
 
+penguins |> 
+  filter(species == "Adelie" | species == "Gentoo") |>
+  select(species, island, body_mass_g)
 
 ### ESERCIZIO 8
 # Mostra solo i pinguini dell'isola Biscoe
 # con body_mass_g > 4500
 # e tieni solo species, island, body_mass_g, sex
 
-filter(penguins, island == "Biscoe", body_mass_g > 4500) |> 
+penguins |>
+  filter(island == "Biscoe", body_mass_g > 4500) |> 
   select(species, island, body_mass_g, sex)
 
 ### ESERCIZIO 9
 # Seleziona tutte le colonne tranne year e sex
 # poi filtra solo i pinguini della specie Chinstrap
 
+penguins |>
+  select(-year, -sex) |>
+  filter(species == "Chinstreap")
 
 ### ESERCIZIO 10
 # Mostra solo i pinguini con bill_length_mm > 45
 # e flipper_length_mm > 210
 # poi tieni solo species, bill_length_mm, flipper_length_mm
 
+penguins |>
+  filter(bill_length_mm > 45, flipper_length_mm > 210) |> 
+  select(species, bill_length_mm, flipper_length_mm)
 
 ### ESERCIZIO 11
 # Mostra solo i pinguini con sex mancante (NA)
 # e tieni solo species, island, sex
+
+penguins |>
+  filter(sex == "NA")|>
+  select(species, island, sex)
 
 
 ### ESERCIZIO 12
 # Mostra solo i pinguini con body_mass_g mancante (NA)
 # oppure bill_length_mm mancante (NA)
 
+penguins |>
+  filter(body_mass_g == "NA" | bill_length_mm == "NA")
+  
 
 ### ESERCIZIO 13
 # Mostra solo i pinguini che:
@@ -284,6 +302,9 @@ filter(penguins, island == "Biscoe", body_mass_g > 4500) |>
 # - NON sono Gentoo
 # poi tieni solo species, island, bill_length_mm
 
+penguins|>
+  filter(island == "Dream" | island =="Torgersen")|>
+  select(species, island, bill_length_mm)
 
 ### ESERCIZIO 14
 # Mostra solo i pinguini con:
@@ -291,6 +312,9 @@ filter(penguins, island == "Biscoe", body_mass_g > 4500) |>
 # - flipper_length_mm maggiore di 190
 # poi tieni solo species, island, flipper_length_mm, body_mass_g
 
+penguins|>
+  filter(body_mass_g>4000, body_mass_g<5000, flipper_length_mm >190) |>
+  select(species, island, flipper_length_mm, body_mass_g)
 
 ### ESERCIZIO 15
 # Mostra solo i pinguini che soddisfano una di queste due condizioni:
@@ -298,3 +322,7 @@ filter(penguins, island == "Biscoe", body_mass_g > 4500) |>
 # OPPURE
 # - specie Adelie e flipper_length_mm < 190
 # poi tieni solo species, island, flipper_length_mm, body_mass_g
+
+penguins |>
+  filter((species == "Gentoo" & body_mass_g > 5500) | (species == "Adelie" & flipper_length_mm < 190)) |>
+  select(species, island, flipper_length_mm, body_mass_g)
