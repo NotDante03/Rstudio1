@@ -187,11 +187,11 @@ pluto <- penguins |>                            #errore classico dei noob: dimen
 
 library(ggplot2)
                
-ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +     #aes() serve per specificare le variabili x e y del grafico       
+paperino <- ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +    #definito grafico paperino   #aes() serve per specificare le variabili x e y del grafico       
   geom_point(aes(col = "red"))+     #geom_point() serve per aggiungere i punti al grafico, se non lo metto non vedo niente
   geom_line()       #geom_line() serve per aggiungere una linea al grafico, se non lo metto vedo solo i punti
 
-ggsave("grafico.png", width = 10, height = 5) #per salvare il grafico, specificando il nome del file e le dimensioni)
+ggsave(filename = "grafico.png", plot = paperino, width = 10, height = 5) #per salvare il grafico, specificando il nome del file e le dimensioni
 
 ############################################################
 # ESERCIZI
