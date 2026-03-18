@@ -20,7 +20,7 @@ glimpse(penguins)
 
 #ctrl+f per cercare e cambiare una funzione. ctrl+z per tornare indietro
 penguins |>
-  mutate( body_mass_kg = body_mass_g / 1000 ) |> #per creare una nuova
+  mutate( body_mass_kg = body_mass_g / 1000 ) |> #per crearne una nuova
   select(-body_mass_g) #per eliminare la colonna già presente per crearne un'altra
   head()
 
@@ -74,7 +74,7 @@ penguins |>
 big_penguin = body_mass_g > 5000 #crea una variabile logica, TRUE se body_mass_g è maggiore di 5000, FALSE se è minore                                                                                                 
   ) |>
   select(species, body_mass_g, big_penguin) |>
-  head()
+  head() 
 
 
 ############################################################
@@ -204,27 +204,44 @@ ggsave(filename = "grafico.png", plot = paperino, width = 10, height = 5) #per s
 ### ESERCIZIO 1
 # creare una colonna body_mass_kg
 
+penguins |> 
+  mutate(body_mass_kg = body_mass_g / 1000)
 
 ### ESERCIZIO 2
 # creare una variabile bill_ratio
 # = bill_length_mm / bill_depth_mm
 
+penguins|>
+  mutate(bill_ratio = bill_length_mm / bill_depth_mm)
 
 ### ESERCIZIO 3
 # usare transmute per ottenere
 # species e body_mass_kg
 
+penguins|>
+  transmute(species, body_mass_kg = body_mass_g / 1000)
 
 ### ESERCIZIO 4
 # creare una variabile big_penguin
 # TRUE se body_mass_g > 5000
 
+penguins|>
+  mutate(big_penguin = body_mass_g > 5000)
 
 ### ESERCIZIO 5
 # classificare body_mass_g
 # >5500  heavy
 # >4500  medium
 # else   light
+
+penguins|>
+  mutate(
+    size_class = case_when(
+    body_mass_g > 5500 ~ "heavy",
+      body_mass_g > 4500 ~ "medium",
+      TRUE ~ "light"
+    )
+  )
 
 
 ### ESERCIZIO 6
@@ -233,11 +250,21 @@ ggsave(filename = "grafico.png", plot = paperino, width = 10, height = 5) #per s
 # >200 medium
 # else short
 
+penguins|>
+  mutate(
+    flipper_class = case_when(
+      flipper_length_mm > 220 ~ "long",
+      flipper_length_mm > 200 ~ "medium",
+      TRUE ~ "short"
+    )
+  )
 
 ### ESERCIZIO 7
 # creare una variabile bill_long
 # TRUE se bill_length_mm > 45
 
+penguins|>
+  mutate(bill_long = bill_length_mm > 45)
 
 ### ESERCIZIO 8
 # creare una variabile species_code
@@ -245,16 +272,36 @@ ggsave(filename = "grafico.png", plot = paperino, width = 10, height = 5) #per s
 # Gentoo = G
 # Chinstrap = C
 
+penguins|>
+  mutate(
+    species_code = case_when(
+      species == "Adelie" ~ "A",
+      species == "Gentoo" ~ "G",
+      species == "Chinstrap" ~ "C",
+      TRUE ~ NA_character_
+    )
+  )
 
 ### ESERCIZIO 9
 # filtrare body_mass_g > 4500
 # poi creare size_class
 
+penguins|>
+  filter(body_mass_g >4500)|>
+  mutate(
+    size_class = case_when(
+      body_mass_g > 5500 ~ "heavy",
+      body_mass_g > 4500 ~ "medium",
+      TRUE ~ "light"
+    )
+  )
 
 ### ESERCIZIO 10
 # creare una variabile heavy_flipper
 # body_mass_g > 5000 AND flipper_length_mm > 210
 
+penguins|>
+  mutate(heavy_flipper = body_mass_g > 5000 & flipper_length_mm > 210)
 
 ############################################################
 # PROMEMORIA
