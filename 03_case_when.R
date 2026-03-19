@@ -59,7 +59,7 @@ penguins |>
   head()
 
 # Differenza:
-# mutate() mantiene tutto
+# mutate() mantiene tutto sia nuove che vecchie colonne
 # transmute() tiene solo le nuove colonne
 
 
@@ -83,6 +83,7 @@ big_penguin = body_mass_g > 5000 #crea una variabile logica, TRUE se body_mass_g
 
 # Prima delle funzioni vettoriali
 # spesso si usavano loop
+# se si vuole imparare a usarli si può
 
 mass <- penguins$body_mass_g
 class(mass)
@@ -288,15 +289,14 @@ penguins|>
 
 penguins|>
   filter(body_mass_g >4500)|>
-  mutate(
+    mutate()
     size_class = case_when(
       body_mass_g > 5500 ~ "heavy",
       body_mass_g > 4500 ~ "medium",
       TRUE ~ "light"
-    )
   )
-
-### ESERCIZIO 10
+    
+### ESERCIZIO 10 
 # creare una variabile heavy_flipper
 # body_mass_g > 5000 AND flipper_length_mm > 210
 
@@ -304,7 +304,7 @@ penguins|>
   mutate(heavy_flipper = body_mass_g > 5000 & flipper_length_mm > 210)
 
 ############################################################
-# PROMEMORIA
+# PROMEMORIA 
 ############################################################
 
 # mutate()      -> crea o modifica colonne
