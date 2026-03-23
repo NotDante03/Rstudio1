@@ -192,14 +192,57 @@ ggplot(dati_long, aes(x = species, y = mean_value, fill = trait)) +
 ### ESERCIZIO 1
 # Trasformare penguins_summary da wide a long
 
+penguins_longer <- penguins_summary |>
+  pivot_longer(
+    cols = c(mean_bill_length, mean_flipper_length),
+    names_to = "measure",
+    values_to = "value"
+  )
+
+penguins_long
+
 ### ESERCIZIO 2
 # Fare un grafico a barre del dataset long
 # con species sull'asse x e value sull'asse y
 
+ggplot(penguins_long, aes(x = species, y = value, fill = measure)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Two measures in long format",
+    x = "Species",
+    y = "Value (mm)",
+    fill = "Measure"
+  )
+
 ### ESERCIZIO 3
 # Trasformare di nuovo penguins_long in wide
+
+penguins_wider <- penguins_long |>
+  pivot_wider(
+    names_from = measure,
+    values_from = value
+  )
+
+penguins_wider
 
 ### ESERCIZIO 4
 # Creare un dataset riassuntivo con tre misure:
 # mean_bill_length, mean_bill_depth, mean_body_mass
 # e poi trasformarlo in long
+
+penguins_summary2 <- penguins |>
+  group_by(species) |>
+  summarise(
+    mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+    mean_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
+    mean_body_mass = mean(body_mass_g, na.rm = TRUE)
+  )
+
+penguins_long2 <- penguins_summary2 |>
+  pivot_longer(  
+    cols = c(mean_bill_length, mean_bill_depth, mean_body_mass),
+    names_to = "measure",
+    values_to = "value"
+  )    
+
+penguins_long
