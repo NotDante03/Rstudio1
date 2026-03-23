@@ -43,11 +43,11 @@ glimpse(penguins)
 # arrange() serve per ordinare le righe
 
 penguins |>
-  arrange(body_mass_g) |>
-  head()
+  arrange(body_mass_g) |>    #mette in ordine crescente i valori della variabile specificata
+  head()                  
 
 penguins |>
-  arrange(desc(body_mass_g)) |>
+  arrange(desc(body_mass_g)) |>    #mette in ordine decrescente i valori della variabile specificata
   head()
 
 
@@ -56,7 +56,7 @@ penguins |>
 ############################################################
 
 # group_by() definisce i gruppi
-# summarise() calcola un riassunto per ciascun gruppo
+# summarise() calcola un riassunto delle variabili per ciascun gruppo
 
 # Esempio 1: peso medio per specie
 penguins |>
@@ -123,8 +123,7 @@ penguins |>
 # 5) ACROSS
 ############################################################
 
-# across() serve per applicare la stessa funzione
-# a più colonne contemporaneamente
+# across() serve per applicare la stessa funzione a più colonne contemporaneamente
 
 # Esempio 1: stessa cosa di prima, ma più compatta
 penguins |>
@@ -233,69 +232,169 @@ penguins |>
 ### ESERCIZIO 1
 # Ordinare il dataset in ordine crescente di bill_length_mm
 
+penguins |>
+  arrange(bill_length_mm) |>   #arrange ordina le righe in maniera crescentre o decrescente (desc(variabile))
+  head()
 
 ### ESERCIZIO 2
 # Ordinare il dataset in ordine decrescente di flipper_length_mm
 
+penguins |> 
+  arrange(desc(flipper_length_mm)) |>
+  head()
 
 ### ESERCIZIO 3
 # Calcolare il peso medio (body_mass_g) per specie
 
+penguins |>
+  group_by(species) |>      #group_by raggruppa i dati in base alla variabile specificata
+  summarise(                #summarise() calcola un riassunto delle variabili per ciascun gruppo
+    mean_mass = mean(body_mass_g, na.rm = TRUE)
+  )
+  
 
 ### ESERCIZIO 4
 # Calcolare media e deviazione standard di body_mass_g per specie
 
+penguins |>
+  group_by(species) |>
+  summarise(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    sd_mass = sd(body_mass_g, na.rm = TRUE)
+  )
 
 ### ESERCIZIO 5
 # Contare quante osservazioni ci sono per ciascuna specie
 
+penguins |>
+  count(species)   #count permette di conteggiare le osservazioni fatte per una determinata variabile (in questo caso species)
 
 ### ESERCIZIO 6
 # Contare quante osservazioni ci sono per specie e isola
 
+penguins |> 
+  count(species, island)
 
 ### ESERCIZIO 7
 # Calcolare, in modo manuale, la media di:
 # bill_length_mm, bill_depth_mm e body_mass_g
 # per ciascuna specie
 
+penguins |>
+  group_by(species)|>
+  summarise(
+    mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+    mean_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
+    mean_body_mass_g = mean(body_mass_g, na.rm = TRUE)
+  )
 
 ### ESERCIZIO 8
 # Usare across() per calcolare la media di:
 # bill_length_mm, bill_depth_mm e body_mass_g
 # per ciascuna specie
 
+penguins |>
+  group_by(species)|>
+  summarise(
+    across(           #across() serve per applicare la stessa funzione a più colonne contemporaneamente
+      c(bill_length_mm, bill_depth_mm, body_mass_g),      #c=combine; specifica le colonne su cui vogliamo applicare la funzione
+      mean,
+      na.rm = TRUE,               # {.col} è un segnaposto che viene sostituito con il nome della colonna originale.
+      .names = "mean_{.col}"      # .names è un argomento di across() che permette di specificare il formato dei nomi delle nuove colonne.                              # {.col} è un segnaposto che viene sostituito con il nome della colonna originale.
+    )
+  )
+    
+  
 
 ### ESERCIZIO 9
 # Usare across() per calcolare la media
 # di tutte le colonne numeriche per specie
 
+penguins |>
+  group_by(species) |>
+  summarise(
+    across(
+      where(is.numeric),   #where è una funzione che permette di selezionare le colonne in base a una condizione logica; in questo caso dove è numerico
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  )
 
 ### ESERCIZIO 10
 # Usare across() per calcolare media e sd
 # di bill_length_mm e flipper_length_mm per specie
+
+penguins|>
+  group_by(species)|>
+  summarise(
+    across(
+      c(bill_length_mm, flipper_length_mm),
+      list(mean = mean, sd = sd),             #list specifica le funzioni da applicare alle colonne specificate da c
+      na.rm = TRUE,
+      .names = "{.col}_{.fn}"
+    )
+  )
 
 
 ### ESERCIZIO 11
 # Calcolare il numero di osservazioni e la media di body_mass_g
 # per specie e isola
 
+penguins|>
+  group_by(species, island) |>
+  summarise(
+    n = n(),     #n = n() è una funzione che conta il numero di osservazioni in ciascun gruppo
+    mean_body_mass_g = mean(body_mass_g, na.rm = TRUE)
+  )
 
 ### ESERCIZIO 12
 # Calcolare il numero di osservazioni e la media
 # di tutte le colonne numeriche per specie
 
+penguins |>
+  group_by(species) |>
+  summarise(
+    n = n(),
+    across(
+      where(is.numeric),
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  )
 
 ### ESERCIZIO 13
 # Calcolare la media di tutte le colonne numeriche
 # per specie e isola
 
+penguins |>
+  group_by(species, island) |>
+  summarise(
+    across(
+      where(is.numeric),
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  )
 
 ### ESERCIZIO 14
 # Ordinare il risultato dell'esercizio precedente
 # in ordine decrescente di mean_body_mass_g
 # (suggerimento: usare .names in across())
 
+penguins |>
+  group_by(species, island) |>
+  summarise(
+    across(
+      where(is.numeric),
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  ) |>
+  arrange(desc(mean_body_mass_g))   
 
 ### ESERCIZIO 15
 # Creare una tabella riassuntiva per specie con:
@@ -304,6 +403,18 @@ penguins |>
 # - media di bill_depth_mm
 # - media di flipper_length_mm
 # - media di body_mass_g
+
+penguins |>
+  group_by(species) |>
+  summarise(
+    n = n(),
+    across(
+      c(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g),
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  )
 
 ############################################################
 # PROMEMORIA FINALE
