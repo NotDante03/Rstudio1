@@ -80,7 +80,7 @@ penguins_clean |>
 
 
 ############################################################
-# 4) APPROCCIO 1: FOR LOOP
+# 4) APPROCCIO 1: FOR LOOP 
 ############################################################
 
 for(i in 1:5) {
@@ -203,7 +203,7 @@ apply(num_mat, 1, mean) |>
 
 
 ############################################################
-# 7) APPROCCIO 3: MAP
+# 7) APPROCCIO 3: MAP   #metodo consigliato dal prof rispetto agli altri per scrivere funzioni
 ############################################################
 
 # map() di purrr è molto simile a lapply(),
@@ -242,7 +242,7 @@ wrap_plots(plot_list_map)
 
 # for loop:
 # - molto esplicito
-# - ottimo per imparare la logica
+# - ottimo per imparare la logica di R (all'inizio)
 # - utile quando servono passaggi intermedi chiari
 #
 # lapply():
@@ -349,6 +349,23 @@ library(palmerpenguins)
 palmerpenguins::penguins
 
 #Creare una lista con i cubi dei numeri da 1 a 5 con loop e lapply
+for(i in 1:5) {
+  print(i)
+}
+
+numeri <- vector("list", 5)
+
+for(i in 1:5) {
+  numeri[[i]] <- i^3
+}
+
+numeri
+
+numeri <- lapply(1:5, function(i)i^3)
+
+numeri
+
+
 #####
 out <- vector("list", 5)
 
@@ -359,19 +376,19 @@ for(i in 1:5) {
 out
 
 out <- lapply(1:5, function(i)i^3)
-
+out
 #Cosa cambia tra i due? 
+#Il primo codice crea una lista vuota e poi la riempie con i cubi dei numeri da 1 a 5 usando un ciclo for. Il secondo codice fa la stessa cosa, ma in modo più compatto usando lapply(), che applica la funzione anonima (function(i) i^3) a ogni elemento del vettore 1:5, restituendo una lista con i risultati. In entrambi i casi, il risultato finale è una lista con i cubi dei numeri da 1 a 5.
 
+#Cosa restituisce questo codice? 
+lapply(1:4, function(x) x + 10) #questo codice restituisce una lista con i numeri da 11 a 14, ottenuti sommando 10 a ciascun numero da 1 a 4. La funzione lapply() applica la funzione anonima (function(x) x + 10) a ogni elemento del vettore 1:4, restituendo una lista con i risultati.
 
-#Cosa restituisce questo codice?
-lapply(1:4, function(x) x + 10)
-
-#Perchè questo codice non funziona?
+#Perchè questo codice non funziona?  #perchè noon c'era la doppia parentesi qiuadra dove c'è i
 
 out <- vector("list", 3)
 
 for(i in 1:3) {
-  out[i] <- i^2
+  out[[i]] <- i^2
 }
 
 #invece dei grafici clacolare la media di bill_lenght_mm per specie
